@@ -1,4 +1,4 @@
-#jQuark and Quark
+# jQuark and Quark
 
 [I'm still pulling this repo all together - please pop back in a day or so]
 
