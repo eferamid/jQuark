@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	
+	<script src="jquery-2.1.1.js"></script>
+	<script src="http://nquyre.com/jquark.js"></script>
+	<!--<script src="lib.base/jquark.js"></script>-->
+	<script src="devutil.js"></script>
+	
+	<script>
+		/*
+		jQuery.fn.ú=function(a){
+			return this.each(function() {
+				ú(this,a);
+			});
+		}
+
+
+		jQuery.fn.ú=function(a){
+			return this.each(function() {
+				var b=ú(this),f=jQuery.fn;
+				if(f.ns)b("embed,%1",f.ns);
+				f.ns=b(a)(-1);
+			});
+		}
+		
+		jQuery.fn.ú=function(a){
+			var f=this;
+			return this.each(function() {
+				var b=ú(this);
+				if(f.ns)b("embed,%1",f.ns);
+				f.ns=b(a)(-1);
+			});
+		}
+		
+		jQuery.fn.í=function(a){
+			var f=this;
+			return this.each(function() {
+				var b=ú(this);
+				if(f.ns)b("embed,%1",f.ns);
+				f.ns=b(a)(-1);
+			});
+		}
+		
+		*/
+		
+		/*
+		jQuery.fn.í=function(){
+		console.log("iii",this.ns,arguments);
+			var f=this,g,h,
+				b=í(f);
+			if(f.ns){
+				b("embed,%1",f.ns);
+			}else{
+				b("embed,%1",{"^":f,xs:jQuery});
+			}
+			g=b.apply(null,arguments);
+			if(typeof(g)=="function"){
+				h=$(g());
+				h.ns=g(-1);
+				return h;
+			}else{
+				return g;
+			}
+		}
+		
+		jQuery.fn.ú=function(){
+			var f=this,g,h,
+				b=ú(f[0]);
+			if(f.ns){
+				b("embed,%1",f.ns);
+			}else{
+				b("embed,%1",{"^":f[0],xs:jQuery});
+			}
+			g=b.apply(null,arguments);
+			if(typeof(g)=="function"){
+				h=$(g());
+				h.ns=g(-1);
+				return h;
+			}else{
+				return g;
+			}
+		}
+		*/
+	</script>
+	
+	<script>
+	console.log("NEW")
+		/*
+		ú.ready(function(){
+			ú("body|ace,table|mace,tr,4|mace,td,6|html,fred")
+			("^|background,red")//special case root
+			("^tr|eq,3|í,td|eq,4|color,yellow")
+			("^tr|eq,2|í,td|eq,3|color,white")
+		});
+		*/
+		
+		$(document).ready(function(){
+			$.fred="alfred";
+			var b=$("body").ú("ace,table|mace,tr,4|mace,td,6|html,fred").css({background:"red"}).í("^td|color,yellow").css({padding:"20px"});
+			//("^|background,red")//special case root
+			$("tr:nth-child(4)").ú("í,td|eq,4|color,yellow").css({background:"green"});
+			$("tr:nth-child(3)").ú("í,td|eq,3|color,white|background,blue");
+		});
+		
+		/*		
+		ú.ready(function(){
+			var a=ú("ce,table|mace,tr,4|mace,td,6|html,fred|^")
+			
+			//("^|background,red")//special case root
+			//("^tr|eq,3|í,td|eq,4|color,yellow")
+			//("^tr|eq,2|í,td|eq,3|color,white")
+			//var b=a("^");
+			console.log("bbbb",a)
+			$("body").append(a);
+		});
+		*/
+		
+		$(document).ready(function(){
+			var b=$("body").ú("addClass,%1|ace,table|mace,tr,4|mace,td,6|html,fred","myclassxx");
+			b.ú("^|background,blue")//special case root
+			b.ú("^tr|eq,3|í,td|eq,4|color,orange")
+			b.ú("^tr|eq,2|í,td|eq,3|color,white")
+			$("tr").ú("background,white")
+			$("td").í("eq,20|border,2px solid yellow").css({background:"orange"})//putting eq 5 does not work???
+		});
+		
+		$(document).ready(function(){
+			var b=$("body").ú(
+			"addClass,$$fred|ace,table|mace,tr,4|mace,td,6|html,fred").ú(
+			"^tr|eq,3|í,td|eq,4|color,yellow").ú(
+			"^tr|eq,2|í,td|eq,3|color,white")
+			
+			console.log("137",$("body").ú("hasClass$,myclass"))
+			console.log("137!",$("body").ú("hasClass$,noclass"))
+			console.log("138",ú("body|hasClass$,myclass"))
+			
+			console.log("137a",$("body").ú("class$"))
+			console.log("138b",ú("body|className$"))
+			
+			console.log("137aa",$("td").ú("width$"))
+			console.log("138bb",ú("td|color$"))
+			
+		});
+		
+		
+		
+	
+	</script>
+	
+</head>
+<body>
+
+</body>
+</html>
+	
