@@ -50,7 +50,7 @@ $(document).ready(function(){
 });
 ```
 
-Step 1 is to translate the creation of the input box.
+#### Step 1 is to translate the creation of the input box.
 
 ```
 $(document).ready(function(){
@@ -70,5 +70,48 @@ When the string is first executed it is compiled.  If it is executed again the c
 
 The fact that quark is written as compilable strings means that the compiler has a "read ahead" ability.  
 When quark loads it generates a small number of elements and examines their properties, attributes, events and css and writes itself accordingly. 
-However other commands may slip through the net and not be generated.  
-If one of these is encountered then they will be generated on the fly.
+However other commands may slip through the net and not be generated.  If one of these is encountered then they will be generated on the fly.
+
+#### Step 2 is to translate the rest
+
+```
+ú.ready(function(){
+	ú("body|ace,input|type,text|val,input element|border:1px solid red|color,blue|disabled,true|placeholder,input placeholder");
+});
+```
+
+In this example, written entirely in Quark, the first command is now a selector which maps to document.querySelector and returns a single element.
+"ace" stands for append create element and is one of a suit of commands that "step into" and return the created elements(s) so that further work can be done on them.
+
+## Quark is a more explicit language than jQuery.
+
+### Terminators - getters and setters.
+
+Many jQuery commands have multiple signatures. The most frequently used are those that choose between returning or setting a value.
+
+In this example:
+
+```
+var a=$("input").attr("type","text").val("input value").css({border:"1px solid red"}),
+	b=a.attr("type"),
+	c=a.val(),
+	d=a.css("border");
+```
+
+"a" will be a jQuery object containing the input element.
+"b" will be set to "text"; the value of the type attribute and
+"c" will be set to "input text",
+"d" will be set to "1px solid red";
+
+In the above example the "attr" command is used first as a setter - it sets the value of the type attribute.  In the second line it is used as a getter.
+
+Many jQuery commands have multiple signatures and these are used to determine the context and required behaviour. The problem is that in some cases resolving the context is quite involved. 
+
+Quark explicitly seperates out getters and setters.  The code above can be rewritten in quark as follows:
+
+```
+var a=$("input|type,text|val,input value|border,1px solid red"),
+	b=a("type$"),
+	c=a("val$"),
+	d=a("border$");
+```
