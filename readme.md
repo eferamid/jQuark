@@ -138,7 +138,7 @@ row:,0, cell:,0	|row:,0, cell:,1 |row:,0, cell:,2 |row:,0, cell:,3
 row:,1, cell:,0	|row:,1, cell:,1 |row:,1, cell:,2 |row:,1, cell:,3 
 row:,2, cell:,0	|row:,2, cell:,1 |row:,2, cell:,2 |row:,2, cell:,3 
 
-				###### Heads up:
+###### 			Heads up:
 				The code above uses quarks inbuilt iterator (i), the command mace (multi append create element) 
 				and adds classes "row0", "row1", "row2" to the tr elements and "cell0", "cell1", "cell2", "cell3" to the td elements.
 				Because the cell iterator will overwrite the row iterator the row number is stored temporarily with a different name.
