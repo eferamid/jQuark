@@ -132,6 +132,7 @@ To illustrate this I need to jump ahead a little bit.  This code:
 
 will generate a table looking like this:
 
-|row:,0, cell:,0	|row:,0, cell:,1	|row:,0, cell:,2	|row:,0, cell:,3
-|row:,1, cell:,0	|row:,1, cell:,1	|row:,1, cell:,2	|row:,1, cell:,3
-|row:,2, cell:,0	|row:,2, cell:,1	|row:,2, cell:,2	|row:,2, cell:,3
+| ----------------- | ----------------- | ----------------- |--------------- |
+|row:,0, cell:,0	|row:,0, cell:,1	|row:,0, cell:,2	|row:,0, cell:,3 |
+|row:,1, cell:,0	|row:,1, cell:,1	|row:,1, cell:,2	|row:,1, cell:,3 |
+|row:,2, cell:,0	|row:,2, cell:,1	|row:,2, cell:,2	|row:,2, cell:,3 |
