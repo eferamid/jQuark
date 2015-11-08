@@ -130,10 +130,16 @@ To illustrate this I need to jump ahead a little bit.  This code:
 ú("body|ace,table|mace,tr,3|addClass,row,~i|set,row,~i|mace,td,4|addClass,cell,~i|html,row:,~row, cell:,~i")
 ```
 
-will generate a table looking something like this:
+will generate a table looking something like this (ignore the blank header column):
 
        |        |        |                 |
  -------------- | -------------- | -------------- | --------------- 
 row:,0, cell:,0	|row:,0, cell:,1 |row:,0, cell:,2 |row:,0, cell:,3 
 row:,1, cell:,0	|row:,1, cell:,1 |row:,1, cell:,2 |row:,1, cell:,3 
 row:,2, cell:,0	|row:,2, cell:,1 |row:,2, cell:,2 |row:,2, cell:,3 
+
+				###### Heads up:
+				The code above uses quarks inbuilt iterator (i), the command mace (multi append create element) 
+				and adds classes "row0", "row1", "row2" to the tr elements and "cell0", "cell1", "cell2", "cell3" to the td elements.
+				Because the cell iterator will overwrite the row iterator the row number is stored temporarily with a different name.
+				The resulting cell html is a concatenation of text and namespace variables.
