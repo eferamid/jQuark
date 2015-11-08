@@ -42,7 +42,7 @@ Quark syntax is similar to jQuerys but has most of the brackets, full stops and 
 
 Lets translate a peice of jQuery code into Quark.
 
-```
+```javascript
 $(document).ready(function(){
 	var a = document.createElement("input");
 	$(a).attr("type","text").val("input element").css({border:"1px solid red";color:"blue"}).prop("disabled",true).attr("placeholder","input placeholder");
@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 #### Step 1 is to translate the creation of the input box.
 
-```
+```javascript
 $(document).ready(function(){
 	var a=ú("ce,input|type,text|val,input element|border:1px solid red|color,blue|disabled,true|placeholder,input placeholder");
 	$("body").append(a);
@@ -74,7 +74,7 @@ However other commands may slip through the net and not be generated.  If one of
 
 #### Step 2 is to translate the rest
 
-```
+```javascript
 ú.ready(function(){
 	ú("body|ace,input|type,text|val,input element|border:1px solid red|color,blue|disabled,true|placeholder,input placeholder");
 });
@@ -91,7 +91,7 @@ Many jQuery commands have multiple signatures. The most frequently used are thos
 
 In this example:
 
-```
+```javascript
 var a=$("input").attr("type","text").val("input value").css({border:"1px solid red"}),
 	b=a.attr("type"),
 	c=a.val(),
@@ -109,7 +109,7 @@ Many jQuery commands have multiple signatures and these are used to determine th
 
 Quark explicitly separates out getters and setters.  The code above can be rewritten in quark as follows:
 
-```
+```javascript
 var a=$("input|type,text|val,input value|border,1px solid red"),
 	b=a("type$"),
 	c=a("val$"),
@@ -138,8 +138,7 @@ row:,0, cell:,0	|row:,0, cell:,1 |row:,0, cell:,2 |row:,0, cell:,3
 row:,1, cell:,0	|row:,1, cell:,1 |row:,1, cell:,2 |row:,1, cell:,3 
 row:,2, cell:,0	|row:,2, cell:,1 |row:,2, cell:,2 |row:,2, cell:,3 
 
-###### 			Heads up:
-				The code above uses quarks inbuilt iterator (i), the command mace (multi append create element) 
-				and adds classes "row0", "row1", "row2" to the tr elements and "cell0", "cell1", "cell2", "cell3" to the td elements.
-				Because the cell iterator will overwrite the row iterator the row number is stored temporarily with a different name.
-				The resulting cell html is a concatenation of text and namespace variables.
+###### 	Heads up:
+The code above uses quarks inbuilt iterator (i), the command mace (multi append create element) and adds classes "row0", "row1", "row2" to the tr elements and "cell0", "cell1", "cell2", "cell3" to the td elements.
+Because the cell iterator will overwrite the row iterator the row number is stored temporarily with a different name.
+The resulting cell html is a concatenation of text and namespace variables.
