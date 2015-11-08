@@ -132,7 +132,7 @@ To illustrate this I need to jump ahead a little bit.  This code:
 
 will generate a table looking like this:
 
- column 1       | column 2       | column3        | 
+ column 1       | column 2       | column3        |                 |
  -------------- | -------------- | -------------- | --------------- 
 row:,0, cell:,0	|row:,0, cell:,1 |row:,0, cell:,2 |row:,0, cell:,3 
 row:,1, cell:,0	|row:,1, cell:,1 |row:,1, cell:,2 |row:,1, cell:,3 
