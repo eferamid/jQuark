@@ -107,7 +107,7 @@ In the above example the "attr" command is used first as a setter - it sets the 
 
 Many jQuery commands have multiple signatures and these are used to determine the context and required behaviour. The problem is that in some cases resolving the context is quite involved. 
 
-Quark explicitly seperates out getters and setters.  The code above can be rewritten in quark as follows:
+Quark explicitly separates out getters and setters.  The code above can be rewritten in quark as follows:
 
 ```
 var a=$("input|type,text|val,input value|border,1px solid red"),
@@ -115,3 +115,23 @@ var a=$("input|type,text|val,input value|border,1px solid red"),
 	c=a("val$"),
 	d=a("border$");
 ```
+
+### Quark and Quirk
+
+Quark is really two libraries that have become joined at the hip.  You could call the other one Quirk but that would probably be silly.
+Quark (ú - alt 0250) is basically a wrapper around the browsers native querySelector command.
+Quirk (í - alt 0237) is basically a wrapper around the browsers native querySelectorAll command.
+
+When writing code you need to be clear about what results you are trying to achieve.
+
+To illustrate this I need to jump ahead a little bit.  This code:
+
+```
+ú("body|ace,table|mace,tr,3|addClass,row,~i|set,row,~i|mace,td,4|addClass,cell,~i|html,row:,~row, cell:,~i")
+```
+
+will generate a table looking like this:
+
+|row:,0, cell:,0	|row:,0, cell:,1	|row:,0, cell:,2	|row:,0, cell:,3
+|row:,1, cell:,0	|row:,1, cell:,1	|row:,1, cell:,2	|row:,1, cell:,3
+|row:,2, cell:,0	|row:,2, cell:,1	|row:,2, cell:,2	|row:,2, cell:,3
