@@ -254,6 +254,6 @@ Quarks command "eq" is zero based for compatibility with jQuery.
 The native css "nth-child" selector is 1 based.
 Quarks internal iterator is zero based.
 Its a pity that they are different but that's how it is.
-As a result some of the return values may seem wrong at first glance.
+As a result some of the return values shown above may seem wrong at first glance.
 
 
