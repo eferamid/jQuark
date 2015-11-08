@@ -25,14 +25,14 @@ Quark also offers several advanced features such as an internal namespace and re
 
 To install jQuark download jquark.js and add a link to it in the document head after the link to jQuery:
 
-```
+```html
 	<script src="jquery-2.1.1.js"></script>
 	<script src="jquark.js"></script>
 ```
 
 To install Quark download quark.js and add a link to it in the document head.
 
-```
+```html
 	<script src="jquark.js"></script>
 ```
 
@@ -116,6 +116,10 @@ var a=$("input|type,text|val,input value|border,1px solid red"),
 	d=a("border$");
 ```
 
+###### 	Heads up:
+Any *command* name that ends with a "$" is a terminator (a getter) and must be the last command in the string.
+Any commands following the terminator will never be executed.
+
 ### Quark and Quirk
 
 Quark is really two libraries that have become joined at the hip.  You could call the other one Quirk but that would probably be silly.
@@ -126,13 +130,13 @@ When writing code you need to be clear about what results you are trying to achi
 
 To illustrate this I need to jump ahead a little bit.  This code:
 
-```
+```javascript
 ú("body|ace,table|mace,tr,3|addClass,row,~i|set,row,~i|mace,td,4|addClass,cell,~i|html,row:,~row, cell:,~i")
 ```
 
 will generate a table looking something like this (ignore the blank header column):
 
-       |        |        |                 |
+                |                |                |                |
  -------------- | -------------- | -------------- | --------------- 
 row:,0, cell:,0	|row:,0, cell:,1 |row:,0, cell:,2 |row:,0, cell:,3 
 row:,1, cell:,0	|row:,1, cell:,1 |row:,1, cell:,2 |row:,1, cell:,3 
@@ -142,3 +146,114 @@ row:,2, cell:,0	|row:,2, cell:,1 |row:,2, cell:,2 |row:,2, cell:,3
 The code above uses quarks inbuilt iterator (i), the command mace (multi append create element) and adds classes "row0", "row1", "row2" to the tr elements and "cell0", "cell1", "cell2", "cell3" to the td elements.
 Because the cell iterator will overwrite the row iterator the row number is stored temporarily with a different name.
 The resulting cell html is a concatenation of text and namespace variables.
+
+Using quark the command:
+
+```javascript
+ú("table tr");
+```
+
+will return a reference to the first row in the table.
+
+whereas:
+
+```javascript
+ú("table tr|html$");
+```
+
+will return the text string:
+
+```html
+"<td class="cell0">row:,0, cell:,0</td><td class="cell1">row:,0, cell:,1</td><td class="cell2">row:,0, cell:,2</td><td class="cell3">row:,0, cell:,3</td>"
+```
+
+Using quirk the command:
+
+```javascript
+í("table tr");
+```
+
+will return a reference to all rows in the table.
+
+whereas:
+
+```javascript
+í("table tr|html$");
+```
+
+will return an array containing the inner html of all three rows.
+
+```html
+[ "<td class="cell0">row:,0, cell:,0</…", "<td class="cell0">row:,1, cell:,0</…", "<td class="cell0">row:,2, cell:,0</…" ]
+```
+
+### Quark has no find command.
+
+To quark the jQuery find command is ambiguous.  Instead quark uses its native syntax internally as well as externally.  
+Just as `ú("table")` maps to `document.querySelector("table")` then `ú("table|ú,td")` can be considered equivalent to:
+
+```javascript
+var elem = document.querySelector("table");
+elem.querySelector("td");
+```
+
+Quirk works in the same way but maps to querySelectorAll.
+
+Hence `ú("table|ú,td|html$")`
+
+will return:
+
+```html
+"row:,0, cell:,0"
+```
+
+And `ú("table|í,td|html$")`
+
+will return an array of 12 strings:
+
+```html
+[ "row:,0, cell:,0", "row:,0, cell:,1", "row:,0, cell:,2", "row:,0, cell:,3", "row:,1, cell:,0", "row:,1, cell:,1", "row:,1, cell:,2", "row:,1, cell:,3", "row:,2, cell:,0", "row:,2, cell:,1", 2 more… ]
+```
+
+##### Targeting specific elements
+
+Assume we want to target the third cell in the second row of the table we could use the following code:
+
+```javascript
+í("table tr|eq,1|í,td|eq,2|html$");
+```
+
+and this will return an *array* with one element:
+
+```html
+[ "row:,1, cell:,2" ]
+```
+
+However this could be very much more efficiently written as follows:
+
+```javascript
+ú("table tr:nth-child(2)|ú,td:nth-child(3)|html$");
+```
+and this will return a *string*:
+
+```html
+"row:,1, cell:,2"
+```
+
+And this could be further refined as follows:
+
+```javascript
+ú("table tr:nth-child(2) td:nth-child(3)|html$");
+```
+
+###### Heads up
+For efficiency if you can use quark (ú) rather than quirk (í) then do so.
+Lay off as much of the code as possible into the browsers native selector statement.
+
+Quarks command "eq" is zero based for compatibility with jQuery.
+The native css "nth-child" selector is 1 based.
+Quarks internal iterator is zero based.
+Its a pity that they are different but that's how it is.
+As a result some of the return values may seem wrong at first glance.
+
+
