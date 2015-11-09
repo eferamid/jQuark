@@ -420,7 +420,7 @@ var myfunction=function(e){
 will log the event object as well as the target element.
 It is optional whether to define the javascript function inline as an anonymous function or pass it in as a variable name.
 
-###### I recommend
+###### I recommend...
 
 You can do this:
 
@@ -435,3 +435,40 @@ function myfunction(e){
 but it would be much better to define "myfunction" the way I first showed you.  It's all about scope and embedding. You'll thank me in the long run.
 
 ###### continuing...
+
+The third example can be rewritten as follows:
+
+```javascript
+var myfunction=function(e){
+	var ns=ú.getns(this)
+	console.log(ns.label,ns.i);
+	console.log("event:",e);
+	console.log("element:",this);
+}
+í("table td|embed,%2|dump|click,%1",myfunction,{label:"cell number:"});
+```
+
+In this example note that the arguments do not need to be referenced in the right order, %2 is referenced before %1.
+Arguments can be referenced in any order and multiple times.
+
+The embed command adds a "label" key and value to this quark instances internal namespace.
+Multiple key:value pairs can be added.
+The dump command enables the "getns" function within any event functions. *(could be made automatic in future)*.
+
+The "gotcha" example is simply not a problem in this context:
+
+```javascript
+var myfunction=function(e){
+	var ns=ú.getns(this)
+	console.log("cell number:",ns.i);
+}
+í("table td|dump|click,%1",myfunction);
+```
+
+The dump command is still needed in order to pass the namespace iterator (i) into the getns function.
+
+We will need to talk about namespaces later.
+
+
+
+
