@@ -248,7 +248,7 @@ And this could be further refined as follows:
 
 ###### Heads up
 For efficiency if you can use quark (ú) rather than quirk (í) then do so.
-Lay off as much of the code as possible into the browsers native selector statement.
+Lay off as much of the code as possible into the browsers native selector statement (the first command).
 
 Quarks command "eq" is zero based for compatibility with jQuery.
 The native css "nth-child" selector is 1 based.
@@ -256,4 +256,126 @@ Quarks internal iterator is zero based.
 Its a pity that they are different but that's how it is.
 As a result some of the return values shown above may seem wrong at first glance.
 
+Any terminator command `([command]$)` that follows a quirk selector (í) will return an array containing 0 or more elements.
+Any terminator command that terminates a command string that starts with and exclusively contains quark selectors (ú) will return the actual return value of the single chosen property.
 
+## Quark primitives - events, style, class
+
+Unlike jQuery Quark directly supports using the primitive attributes for style class and events. 
+Primitives are not really suitable for multi level hierarchical systems but for simple apps they are sometimes the best way to lay off multi-stepped operations into the browsers rendering engine.
+
+### Class
+
+The following code:
+
+```javascript
+í("table tr|class,inactive pending");
+```
+
+will add the classes "inactive" and "pending" to all rows in the table.
+
+Now the following code:
+
+```javascript
+ú("table tr:nth-child(2)|class,active");
+```
+
+will remove the classes "inactive" and "pending" (and any other classes that may have existed previously) from the second row and add the class "active";
+
+### Style
+
+A similar technique can be applied to the style attribute;
+
+```javascript
+í("table tr|style,opacity:0.5;background:#ccc");
+```
+
+Will "grey out" all rows in the table.
+
+Now the following code:
+
+```javascript
+ú("table tr:nth-child(2)|style,color:red");
+```
+
+Will remove the "greyed out" effect from the second row (and any other previously applied css properties) and change the colour of the text to red.
+
+Note that quark uses native css syntax (no {opacity:"0.5",background:"#ccc"} etc.)
+
+The style command is unusual in that what you put in, a css string, is not what you get back, a CSS2Properties object.
+
+
+This code:
+
+```javascript
+.ú("table tr|style$");
+```
+
+will return an object which when pasted into a text document will look like this:
+
+```
+CSS2Properties { opacity: "0.5", background-color: "rgb(204, 204, 204)", background-image: "none", background-repeat: "repeat", background-attachment: "scroll", background-position: "0% 0%", background-clip: "border-box", background-origin: "padding-box", background-size: "auto auto" }
+```
+
+### Events
+
+```javascript
+í("table td|onclick,alert('a primitive event')");
+```
+
+will alter the table in the example above so that when you click on any of the cells an alert box will appear.
+
+The following code:
+
+```javascript
+function myfunction(ev,el){
+	console.log("event:",ev);
+	console.log("element:",el);
+}
+í("table td|onclick,javascript:myfunction(event,this)");
+```
+
+will overwrite the previous example so that when you click on any of the cells the event object and target element will be logged to the console.
+There can only be one onclick attribute and so replacing this attribute has the effect of unbinding the previously attached event.
+
+Finally the following code:
+
+```javascript
+function myfunction(ev,label,iterator,el){
+	console.log(label,iterator);
+	console.log("event:",ev);
+	console.log("element:",el);
+}
+í("table td|onclick,javascript:myfunction(event,'cell number:',~i,this)");
+```
+
+will label each set of logs with the label "cell number: 0" through to "cell number: 11".
+
+###### Gotcha
+With the current code the substituted variable "~i" cannot be the first or the last variable in the function.
+If you only want to pass in one variable and it is a substituted variable you have to pad your function as follows:
+
+```javascript
+function myfunction(a,iterator,b){
+	//a and b are padding
+	console.log("cell number:",iterator);
+}
+í("table td|onclick,javascript:myfunction('',~i,'')");
+```
+
+Sorry about this but to get over this issue it would be necessary to write "execute always" code into the inner most loop with only very occasional benefit from it.
+If I can think of a better way round this then I'll let you know!
+
+###### Headsup 
+The examples above show late substitution taking place.  Every time the onclick attribute is added to an element the variable "~i" is requeried and so it is different for each cell.
+
+There are 4 types of substitution 
+* External
+* Arguments
+* Early 
+* Late
+
+They each perform in a slightly different way. More of this anon.
+ 
+## Substitution - 
+ 
