@@ -352,7 +352,7 @@ function myfunction(ev,label,iterator,el){
 will label each set of logs with the label "cell number: 0" through to "cell number: 11".
 
 ###### Gotcha
-With the current code the substituted variable "~i" cannot be the first or the last variable in the function.
+With the current code the substituted variable "~i" cannot be the first or the last variable passed to the function.
 If you only want to pass in one variable and it is a substituted variable you have to pad your function as follows:
 
 ```javascript
@@ -366,7 +366,7 @@ function myfunction(a,iterator,b){
 Sorry about this but to get over this issue it would be necessary to write "execute always" code into the inner most loop with only very occasional benefit from it.
 If I can think of a better way round this then I'll let you know!
 
-###### Headsup 
+###### Heads up 
 The examples above show late substitution taking place.  Every time the onclick attribute is added to an element the variable "~i" is requeried and so it is different for each cell.
 
 There are 4 types of substitution 
@@ -377,5 +377,61 @@ There are 4 types of substitution
 
 They each perform in a slightly different way. More of this anon.
  
-## Substitution - 
- 
+## Substitution - arguments
+
+Quark also supports more conventional jQuery like events but in order to add these, the functions to be executed must be passed in as arguments.
+
+Rewriting the first of the examples above:
+
+```javascript
+í("table td|click,%1",function(e){alert('an event')});
+```
+
+In this case the alert is contained within a function and the function is the *second* argument being passed into the quark function.  
+The first argument (argument[0]) is the string `"table td|click,%1"`.  Arguments are zero based and so the second argument is referenced as "%1".
+Attempts to simplify this actually end up making it more complicated so that's how it has to be!
+
+###### Heads up
+The following mixed jQuery and Quark code:
+
+```javascript
+var rows = $("table tr");
+í(rows,"í,td|click,%2",function(e){alert('an event')});
+```
+
+produces exactly the same result as the previous example but note that the first argument is the jQuery object named "rows".
+The second argument is the Quark string and the third argument is the function for the click command.  So that makes the javascript function %2! Gotit?
+
+You can add any number of arguments.  However if a Quark string and the number of arguments gets too long it becomes unmanageable.
+That is why the next section will discuss re-entry points.
+
+###### continuing...
+
+Rewriting the next example:
+
+```javascript
+var myfunction=function(e){
+	console.log("event:",e);
+	console.log("element:",this);
+}
+í("table td|click,%1",myfunction);
+```
+
+will log the event object as well as the target element.
+It is optional whether to define the javascript function inline as an anonymous function or pass it in as a variable name.
+
+###### I recommend
+
+You can do this:
+
+```javascript
+function myfunction(e){
+	console.log("event:",e);
+	console.log("element:",this);
+}
+í("table td|click,%1",myfunction);
+```
+
+but it would be much better to define "myfunction" the way I first showed you.  It's all about scope and embedding. You'll thank me in the long run.
+
+###### continuing...
